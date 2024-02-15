@@ -150,3 +150,13 @@ input[type='number'] {
 .list li:hover .delete-btn {
   opacity: 1;
 }
+
+/* Make it responsive */
+@media screen and (max-width: 420px) {
+  body {
+    font-size: 16px;
+  }
+  .container {
+    width: 99%;
+  }
+}
