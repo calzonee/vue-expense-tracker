@@ -16,10 +16,17 @@ const onSubmit = () => {
             timeout: 4000
         });
         return;
+    } else if(isNaN(+amount.value)) {
+        toast.error('Amount must be a number.', {
+            position: POSITION.TOP_CENTER,
+            timeout: 4000
+        });
+        return;
     }
+
     const transactionData = {
         text: text.value,
-        amount: amount.value
+        amount: +amount.value
     }
 
     emit('transactionSubmitted', transactionData)
@@ -27,8 +34,6 @@ const onSubmit = () => {
     text.value = '';
     amount.value = '';
 }
-
-
 </script>
 
 <template>

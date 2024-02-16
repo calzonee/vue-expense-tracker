@@ -22,7 +22,6 @@ const total = computed(() => {
   const totalAmount = transactions.value.reduce((accumulator, transaction) => {
     return accumulator + transaction.amount;
   }, 0);
-  console.log(totalAmount);
 
   // Rounds it up
   return parseFloat(totalAmount.toFixed(2))
@@ -50,20 +49,13 @@ const expenses = computed(() => {
 
 // Add transaction
 const handleTransactionSubmitted = (transactionData) => {
-  if (typeof transactionData.amount !== 'number') {
-    toast.error('Unvalid input in amount.', {
-      position: POSITION.TOP_CENTER,
-      timeout: 4000
-    });
-    return;
-  }
 
   transactions.value.push({
     id: generateUniqueId(),
     text: transactionData.text,
     amount: +transactionData.amount
   });
-  console.log(generateUniqueId());
+
   toast.success('Transaction added.', {
     position: POSITION.TOP_CENTER,
     timeout: 3000
@@ -74,7 +66,6 @@ const handleTransactionSubmitted = (transactionData) => {
 const generateUniqueId = () => {
   return Math.floor(Math.random() * 1000000)
 }
-
 </script>
 
 <template>
