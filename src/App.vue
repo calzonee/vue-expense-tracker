@@ -6,12 +6,15 @@ import TransactionList from './components/TransactionList.vue';
 import AddTransaction from './components/AddTransaction.vue';
 
 import { ref, computed } from 'vue';
+import { POSITION, useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 const transactions = ref([
     {id: 1, text: 'Groceries', amount: -34 },
     {id: 2, text: 'Cake', amount: -8.99 },
-    {id: 3, text: 'Salary', amount: 430.4 },
-    // {id: 4, text: 'Nothing', amount: 0 },
+    {id: 3, text: 'Salary', amount: 430.04 },
+    {id: 4, text: 'Nothing', amount: -0.91 },
 ])
 
 // Get total
@@ -19,6 +22,7 @@ const total = computed(() => {
   const totalAmount = transactions.value.reduce((accumulator, transaction) => {
     return accumulator + transaction.amount;
   }, 0);
+  console.log(totalAmount);
 
   // Rounds it up
   return parseFloat(totalAmount.toFixed(2))
@@ -43,14 +47,42 @@ const expenses = computed(() => {
   }, 0)
   .toFixed(2);
 });
+
+// Add transaction
+const handleTransactionSubmitted = (transactionData) => {
+  if (typeof transactionData.amount !== 'number') {
+    toast.error('Unvalid input in amount.', {
+      position: POSITION.TOP_CENTER,
+      timeout: 4000
+    });
+    return;
+  }
+
+  transactions.value.push({
+    id: generateUniqueId(),
+    text: transactionData.text,
+    amount: +transactionData.amount
+  });
+  console.log(generateUniqueId());
+  toast.success('Transaction added.', {
+    position: POSITION.TOP_CENTER,
+    timeout: 3000
+  });
+};
+
+// generate unique ID
+const generateUniqueId = () => {
+  return Math.floor(Math.random() * 1000000)
+}
+
 </script>
 
 <template>
   <Header />
   <div class="container">
-    <Balance :total="total"/>
-    <IncomeExpenses :income="income" :expenses="expenses"/>
+    <Balance :total="+total"/>
+    <IncomeExpenses :income="+income" :expenses="+expenses"/>
     <TransactionList :transactions="transactions"/>
-    <AddTransaction />
+    <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
   </div>
 </template>
