@@ -6,9 +6,11 @@ import TransactionList from './components/TransactionList.vue';
 import AddTransaction from './components/AddTransaction.vue';
 
 import { ref, computed } from 'vue';
-import { POSITION, useToast } from 'vue-toastification';
+import { POSITION, createToastInterface } from 'vue-toastification';
 
-const toast = useToast();
+const toast = createToastInterface({
+  position: POSITION.TOP_CENTER
+});
 
 const transactions = ref([
     {id: 1, text: 'Groceries', amount: -34 },
@@ -57,7 +59,6 @@ const handleTransactionSubmitted = (transactionData) => {
   });
 
   toast.success('Transaction added.', {
-    position: POSITION.TOP_CENTER,
     timeout: 3000
   });
 };
@@ -66,6 +67,14 @@ const handleTransactionSubmitted = (transactionData) => {
 const generateUniqueId = () => {
   return Math.floor(Math.random() * 1000000)
 }
+
+// Delete transaction
+const handleTransactionDeleted = (id) => {
+  transactions.value = transactions.value.filter((transaction) => transaction.id !== id)
+  toast.success('Transaction deleted.', {
+    timeout: 4000
+  });
+}
 </script>
 
 <template>
@@ -73,7 +82,7 @@ const generateUniqueId = () => {
   <div class="container">
     <Balance :total="+total"/>
     <IncomeExpenses :income="+income" :expenses="+expenses"/>
-    <TransactionList :transactions="transactions"/>
+    <TransactionList :transactions="transactions" @transactionDeleted="handleTransactionDeleted"/>
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
   </div>
 </template>

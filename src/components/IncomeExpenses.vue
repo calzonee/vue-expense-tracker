@@ -17,11 +17,11 @@ const props = defineProps({
     <div class="inc-exp-container">
         <div>
             <h4>Income</h4>
-            <p id="money-plus" class="money plus">{{ props.income }}€</p>
+            <p id="money-plus" class="money plus">{{ props.income.toFixed(2) }}€</p>
         </div>
         <div>
             <h4>Expense</h4>
-            <p id="money-minus" class="money minus">{{ props.expenses }}€</p>
+            <p id="money-minus" class="money minus">{{ props.expenses.toFixed(2) }}€</p>
         </div>
     </div>
 </template>

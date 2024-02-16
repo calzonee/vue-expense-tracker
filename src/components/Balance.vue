@@ -11,5 +11,5 @@ const props = defineProps({
 
 <template>
     <h4>Your Balance</h4>
-    <h1>{{ props.total }}€</h1>
+    <h1>{{ props.total.toFixed(2) }}€</h1>
 </template>
